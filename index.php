@@ -1,10 +1,16 @@
 <?php
     $backgroundImage = "Slider/img/sea.jpg";
-    if(isset($_GET['keyword']))
+    if(isset($_GET['keyword']) and !empty($_GET['keyword']))
     {
         include 'Slider/api/pixabayAPI.php';
         $keyword = $_GET['keyword'];
         $imageURLs = getImageURLs($keyword);
+        $backgroundImage = $imageURLs[array_rand($imageURLs)];
+    }
+    else if(isset($_GET['category'])and !empty($_GET['category']))
+    {
+        include 'Slider/api/pixabayAPI.php';
+        $imageURLs = getImageURLs($_GET['category']);//its giving problems with the getImageURLs
         $backgroundImage = $imageURLs[array_rand($imageURLs)];
     }
     // else{
@@ -43,6 +49,7 @@
         ?>
         <!--<h1>You searched for </h1>-->
         <div id  = "carousel-example-generic" class = "carousel slide" data-ride = "carousel">
+            <!--Indicators-->
             <ol class ="carousel-indicators">
             
             <?php
@@ -84,27 +91,29 @@
             </a>
         </div>
         <?php
-            }
+            }//ends else statement 
         ?>
+        <br>
         <form>
             <input type ="text" name = "keyword" placeholder = "Keyword" value = "<?=$_GET['keyword']?>"/>
             <input type = "radio" id = "lhorizontal" name = "layout" value = "horizontal">
             <label  for = "Horizontal"></lable><label for = "lhorizontal">Horizontal</lable>
             <input type = "radio" id = "lvertical" name = "layout" value = "vertical">
-            <lable for "vertical"></lable><label for="lvertical">Vertical</label>
+            <lable for "Vertical"></lable><label for="lvertical">Vertical</label>
             <select name = "category">
                 <option value = "">Select One</option>
-                <option value = "ocean">Sea</option>
-                <option value = "forest">Forest</option>
-                <option value = "montain">Montain</option>
-                <option value = "<?$keyword='snow'?>">Snow</option>
+                <option name = "keyword" placeholder = "Keyword" value = "ocean">Sea</option>
+                <option name = "keyword" placeholder = "Keyword" value = "forest">Forest</option>
+                <option name = "keyword" placeholder = "Keyword" value = "montain">Montain</option>
+                <option name = "keyword" placeholder = "Keyword" value = "snow">Snow</option>
+                <option name = "keyword"   placeholder = "Keyword" value = "panda">Panda</option>
             </select>
             <input type = "submit" value = "Submit"/>
         </form>
         <br/>
         <br/>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.bundle.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         
     </body>
 </html>
